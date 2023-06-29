@@ -1,0 +1,102 @@
+<!--include header.ejs partial-->
+<%- include('partials/header',{title:'dashboard'}) %>
+
+<section class="vh-80" style="background-color: white;">
+    <div class="container py-5 h-2">
+   
+     <div class="z-index-n1 d-flex-row-reverse justify-content-end align-items-center h-10">
+        <div class="container-fluid">
+         <br><br><br>
+          <div class="card" style="border-radius: 15px;">
+           <div class="container-fluid">
+            <div class="card-body p-4">
+              <div class="d-flex text-black">
+                <div class="flex-shrink-0">
+                  <img src="img/user.svg"
+                    alt="Generic placeholder image" class="img-fluid"
+                    style="width: 120px; border-radius: 10px;">
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <h5 class="mb-1">zenith</h5>
+                  <p class="mb-2 pb-1" style="color: #2b2a2a;">User Id: </p>
+                  <div class="d-flex justify-content-start rounded-3 p-2 mb-2"
+                    style="background-color: #efefef;">
+                    <div>
+                      <p class="small text-muted mb-1">Flat No</p>
+                      <p class="mb-0">B41</p>
+                    </div>
+                    <div class="px-3">
+                      <p class="small text-muted mb-1">Plant Type</p>
+                      <p class="mb-0">Vegetables</p>
+                    </div>
+                    <div>
+                      <p class="small text-muted mb-1">No of Plants</p>
+                      <p class="mb-0">8</p>
+                    </div>
+                    <div class="px-3">
+                      <p class="small text-muted mb-1">Tokens</p>
+                      <p class="mb-0">54</p>
+                    </div>
+                   </div>
+                   <form action="/add_crop.html" method="get">
+                     <div class="d-flex pt-1">
+                       <button href="add_crop.html" type="submit" class="btn btn-outline-primary me-1 flex-grow-1" >ADD CROP</button>
+                     </div>
+                   </form>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   </section>
+   
+   <section class="vh-80 chart" style="background-color: white;">
+     <div>
+       <canvas id="humidityChart" class="col-3"></canvas>
+       <canvas id="moistureChart" class="col-3"></canvas>
+       <canvas id="temperatureChart" class="col-3"></canvas>
+   </div>
+   </section>
+   
+   <section id="testimonials">
+   
+     <div id="testimonial-carousel" class="carousel slide" data-ride="false">
+       <div class="carousel-inner">
+         <div class="carousel-item active">
+           <h2>Growing one plant will give you immense benefits. So, what if we collectively grew many plants!?</h2>
+           <img class="testimonial-image" src="img/p3.svg" alt="dog-profile">
+         </div>
+         <div class="carousel-item ">
+           <h2 class="testimonial-text">Here you can build an ecosystem with an exciting trading community!</h2>
+           <img class="testimonial-image" src="img/p2.svg" alt="lady-profile">
+         </div>
+         <div class="carousel-item ">
+           <h2 class="testimonial-text">Worried about surplus? We open stalls & collect those too!</h2>
+           <img class="testimonial-image" src="img/p4.svg" alt="lady-profile">
+         </div>
+         <div class="carousel-item ">
+           <h2 class="testimonial-text">Your plants will be continuously monitored for maintaining quality.</h2>
+           <img class="testimonial-image" src="img/p5.svg" alt="lady-profile">
+         </div>
+         <div class="carousel-item ">
+           <h2 class="testimonial-text">Horticorp collects fresh and non-toxic vegetables from the farmers and sells them to customers at reasonable prices. Well, we plan to be the Organinc Wing, avoiding middleman exploitation!</h2>
+           <img class="testimonial-image" src="img/p6.jpeg" alt="lady-profile">
+         </div>
+       </div>
+   
+       <a class="carousel-control-prev" href="#testimonial-carousel" role="button" data-slide="prev">
+         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+         <span class="sr-only">Previous</span>
+       </a>
+       <a class="carousel-control-next" href="#testimonial-carousel" role="button" data-slide="next">
+         <span class="carousel-control-next-icon" aria-hidden="true"></span>
+         <span class="sr-only">Next</span>
+       </a>
+     </div>
+   </section>
+
+   <!--include footer partial-->
+   <%- include('partials/footer') %>
