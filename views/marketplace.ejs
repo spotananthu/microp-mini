@@ -4,38 +4,16 @@
 <section class="vh-80" style="background-color: white;">
     <br>
     <div class="grid-container">
-        <div class="grid-item">
-        <img src="https://media.istockphoto.com/id/941825808/photo/tomato-isolated-tomato-on-white-background-with-clipping-path-full-depth-of-field.jpg?s=612x612&w=0&k=20&c=FOo7yfEpxmdTHYBHVr2og-nE_m4mib32rYxZQxUARbs=" alt="Product Image" width="200" height="200">
-        <h3>Product Name</h3>
-        <p>Price: $X</p>
-        <p>Remaining Time: X days</p>
-        <button class="button">Place Bid</button>
-        <button class="button">Show Details</button>
-        </div>
+        <% crops.forEach(function(crop){ %>
         <div class="grid-item">
             <img src="https://media.istockphoto.com/id/941825808/photo/tomato-isolated-tomato-on-white-background-with-clipping-path-full-depth-of-field.jpg?s=612x612&w=0&k=20&c=FOo7yfEpxmdTHYBHVr2og-nE_m4mib32rYxZQxUARbs=" alt="Product Image" width="200" height="200">
-            <h3>Product Name</h3>
-            <p>Price: $X</p>
-            <p>Remaining Time: X days</p>
+            <h3><%=crop.title%></h3>
+            <p>Price:<%=crop.amount%></p>
+            <p>Remaining Time: <%=crop.endTime%></p>
             <button class="button">Place Bid</button>
             <button class="button">Show Details</button>
         </div>
-        <div class="grid-item">
-            <img src="https://media.istockphoto.com/id/941825808/photo/tomato-isolated-tomato-on-white-background-with-clipping-path-full-depth-of-field.jpg?s=612x612&w=0&k=20&c=FOo7yfEpxmdTHYBHVr2og-nE_m4mib32rYxZQxUARbs=" alt="Product Image" width="200" height="200">
-            <h3>Product Name</h3>
-            <p>Price: $X</p>
-            <p>Remaining Time: X days</p>
-            <button class="button">Place Bid</button>
-            <button class="button">Show Details</button>
-        </div>
-        <div class="grid-item">
-            <img src="https://media.istockphoto.com/id/941825808/photo/tomato-isolated-tomato-on-white-background-with-clipping-path-full-depth-of-field.jpg?s=612x612&w=0&k=20&c=FOo7yfEpxmdTHYBHVr2og-nE_m4mib32rYxZQxUARbs=" alt="Product Image" width="200" height="200">
-            <h3>Product Name</h3>
-            <p>Price: $X</p>
-            <p>Remaining Time: X days</p>
-            <button class="button">Place Bid</button>
-            <button class="button">Show Details</button>
-        </div>
+        <% }) %>
     </div>
 </section>
 <!--include footer partial-->

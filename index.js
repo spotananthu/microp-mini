@@ -7,7 +7,6 @@ const firebaseConfig = require("./public/js/firebaseConfig");
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const app=express();
-let readings = {};
 
 function read_sensor() {
   return new Promise((resolve, reject) => {
@@ -59,8 +58,18 @@ function calculateAverage(readings) {
   return average;
 }
 
+async function readCropData() {
+  const ref = db.ref('crops'); // Replace 'path/to/data' with your actual database path
 
-
+  try {
+    const snapshot = await ref.once('value');
+    const data = snapshot.val();
+    const readingsArray = Object.values(data);
+    return readingsArray;
+  } catch (error) {
+    throw new Error('Error reading data: ' + error);
+  }
+}
 
 app.use(express.static("public"));
 app.set('views',"views");
@@ -88,9 +97,17 @@ app.get("/register.html",function(req,res){
     res.sendFile(__dirname+"/register.html");
 })
 
-app.get("/marketplace",function(req,res){
-  res.render("marketplace",{title:'marketplace'});
-})
+app.get("/marketplace", async function(req, res) {
+  try {
+    const reading = await readCropData();
+    console.log("Inside", reading);
+    res.render("marketplace", { title: 'marketplace',crops:reading});
+  } catch (error) {
+    console.log("Error:", error);
+    // Handle the error accordingly
+    res.status(500).send("An error occurred");
+  }
+});
 
 app.listen(5000,function(){
     console.log("Server started on port 5000");
