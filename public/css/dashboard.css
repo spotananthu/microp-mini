@@ -86,6 +86,77 @@ body{
     height: 6em;
   
   }
+  .sensor-card {
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    margin: 20px;
+    transition: box-shadow 0.3s;
+  }
+  
+  .sensor-card:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .sensor-card h3 {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .sensor-values p {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #666;
+  }
+  
+  .sensor-values p span {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .card-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .sensor-card {
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    margin: 20px;
+    transition: box-shadow 0.3s;
+  }
+  
+  
+  .sensor-values {
+    margin-bottom: 20px;
+  }
+  
+  #refresh-button {
+    background-color: #428bca;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  
+  #refresh-button:hover {
+    background-color: #3276b1;
+  }
   .token{
     margin-top: 10px;
   }
