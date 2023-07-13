@@ -92,7 +92,36 @@
     <button id="refresh-button" class="btn btn-primary">Refresh</button>
   </div>
  </section>
-
+    <div class="button-container">
+      <button id="refresh-button" class="btn btn-primary">Refresh</button>
+    </div>
+   </section>
+   <section class="vh-80 chart" style="background-color: white;">
+    <div class="card-container">
+      <div class="sensor-card">
+        <h3>Humidity</h3>
+        <div class="sensor-values">
+          <p><span id="humidity-value"><%= readings.humidity %></span></p>
+        </div>
+        <button id="refresh-button">Refresh</button>
+      </div>
+      <div class="sensor-card">
+        <h3>Moisture</h3>
+        <div class="sensor-values">
+          <p><span id="moisture-value"><%= readings.moisture %></span></p>
+        </div>
+        <button id="refresh-button">Refresh</button>
+      </div>
+      <div class="sensor-card">
+        <h3>Temperature</h3>
+        <div class="sensor-values">
+          <p><span id="temperature-value"><%= readings.temperature %></span></p>
+        </div>
+        <button id="refresh-button">Refresh</button>
+      </div>
+    </div>
+    </section>
+   
    <section id="testimonials">
    
      <div id="testimonial-carousel" class="carousel slide" data-ride="false">
