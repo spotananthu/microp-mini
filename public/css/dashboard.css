@@ -11,6 +11,11 @@ body{
     margin: 20px;
     transition: box-shadow 0.3s;
   }
+  .button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
   
   .sensor-card:hover {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
@@ -67,6 +72,7 @@ body{
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-bottom: 10px;;
   }
   
   
@@ -229,19 +235,41 @@ body{
     line-height: 1.5;
     text-align: center;
     margin: 5em;
+  }  
+  .show {
+    max-height: 50px !important;
   }
-  @media (max-width:991px) {
-  #title{
-    text-align: center;
-  }
+
+  @media (max-width: 991px) {
+    #title {
+      text-align: center;
+    }
   
-    .title-image{
+    .title-image {
       position: static;
       transform: rotate(0);
     }
   }
   
-  .show {
-    max-height: 50px !important;
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .sensor-card {
+      width: 90%;
+      margin: 10px auto;
+    }
+  
+    .card-container {
+      flex-wrap: wrap;
+    }
+  
+    .button-container {
+      margin-top: 10px;
+    }
   }
+  
+  @media (max-width: 576px) {
+    .sensor-card {
+      width: 100%;
+      margin: 10px auto;
+    }
   
