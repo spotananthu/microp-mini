@@ -74,11 +74,25 @@
         </div>
       </div>
     </div>
-    <div class="button-container">
-      <button id="refresh-button" class="btn btn-primary">Refresh</button>
-    </div>
-   </section>
-   
+
+    <section class="chart-container">
+      <div class="chart-item">
+        <canvas id="temperature-chart"></canvas>
+      </div>
+      <div class="chart-item">
+        <canvas id="humidity-chart"></canvas>
+      </div>
+      <div class="chart-item">
+        <canvas id="moisture-chart"></canvas>
+      </div>
+    </section>
+    
+
+  <div class="button-container">
+    <button id="refresh-button" class="btn btn-primary">Refresh</button>
+  </div>
+ </section>
+
    <section id="testimonials">
    
      <div id="testimonial-carousel" class="carousel slide" data-ride="false">
@@ -130,7 +144,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/gaugeJS/dist/gauge.min.js"></script>
 <script>
-  // Get the sensor readings from the server or set dummy values
   const readings = {
     humidity: <%= readings.humidity || 0 %>,
     moisture: <%= readings.moisture || 0 %>,
@@ -205,5 +218,131 @@
   const refreshButton = document.getElementById("refresh-button");
   refreshButton.addEventListener("click", function() {
     location.reload(); // Reload the page
+  });
+
+  const currentDate = new Date();
+
+// Initialize an array to hold the labels
+const chartLabels = [];
+
+// Generate the labels for the past 7 days
+for (let i = 6; i >= 0; i--) {
+  const date = new Date(currentDate);
+  date.setDate(date.getDate() - i);
+  const day = date.toLocaleDateString('en-US', { day: 'numeric' });
+  const month = date.toLocaleDateString('en-US', { month: 'short' });
+  chartLabels.push(`${month} ${day}`);
+}
+  // Dummy data for line charts (replace with actual data)
+  const temperatureChartData = {
+    labels: chartLabels,
+    datasets: [
+      {
+        label: "Temperature",
+        data: [25, 26, 27, 28, 29, 30, 31],
+        borderColor: "rgba(255, 99, 132, 1)",
+        backgroundColor: "rgba(255, 99, 132, 0.2)",
+        fill: false,
+      },
+    ],
+  };
+
+  const humidityChartData = {
+    labels: chartLabels,
+    datasets: [
+      {
+        label: "Humidity",
+        data: [40, 45, 42, 50, 47, 48, 46],
+        borderColor: "rgba(54, 162, 235, 1)",
+        backgroundColor: "rgba(54, 162, 235, 0.2)",
+        fill: false,
+      },
+    ],
+  };
+
+  const moistureChartData = {
+    labels: chartLabels,
+    datasets: [
+      {
+        label: "Moisture",
+        data: [60, 58, 59, 57, 61, 62, 64],
+        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        fill: false,
+      },
+    ],
+  };
+
+  // Create the line charts
+  const temperatureChart = new Chart(document.getElementById("temperature-chart"), {
+    type: "line",
+    data: temperatureChartData,
+    options: {
+      responsive: true,
+      scales: {
+        x: {
+          display: true,
+          title: {
+            display: true,
+            text: "Day",
+          },
+        },
+        y: {
+          display: true,
+          title: {
+            display: true,
+            text: "Temperature",
+          },
+        },
+      },
+    },
+  });
+
+  const humidityChart = new Chart(document.getElementById("humidity-chart"), {
+    type: "line",
+    data: humidityChartData,
+    options: {
+      responsive: true,
+      scales: {
+        x: {
+          display: true,
+          title: {
+            display: true,
+            text: "Day",
+          },
+        },
+        y: {
+          display: true,
+          title: {
+            display: true,
+            text: "Humidity",
+          },
+        },
+      },
+    },
+  });
+
+  const moistureChart = new Chart(document.getElementById("moisture-chart"), {
+    type: "line",
+    data: moistureChartData,
+    options: {
+      responsive: true,
+      scales: {
+        x: {
+          display: true,
+          title: {
+            display: true,
+            text: "Day",
+          },
+        },
+        y: {
+          display: true,
+          title: {
+            display: true,
+            text: "Moisture",
+          },
+        },
+      },
+    },
   });
 </script>
