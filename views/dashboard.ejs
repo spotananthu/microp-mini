@@ -5,7 +5,7 @@
     <div class="container py-5 h-2">
    
      <div class="z-index-n1 d-flex-row-reverse justify-content-end align-items-center h-10">
-        <div class="container-fluid">
+        <!--div class="container-fluid"-->
          <br><br><br>
           <div class="card" style="border-radius: 15px;">
            <div class="container-fluid">
@@ -48,17 +48,35 @@
             </div>
             </div>
           </div>
-        </div>
+        <!--/div-->
       </div>
     </div>
    </section>
    
    <section class="vh-80 chart" style="background-color: white;">
-     <div>
-       <canvas id="humidityChart" class="col-3"></canvas>
-       <canvas id="moistureChart" class="col-3"></canvas>
-       <canvas id="temperatureChart" class="col-3"></canvas>
-   </div>
+    <div class="card-container">
+      <div class="sensor-card">
+        <h3>Humidity</h3>
+        <div class="sensor-values">
+          <canvas id="humidity-gauge"></canvas>
+        </div>
+      </div>
+      <div class="sensor-card">
+        <h3>Moisture</h3>
+        <div class="sensor-values">
+          <canvas id="moisture-gauge"></canvas>
+        </div>
+      </div>
+      <div class="sensor-card">
+        <h3>Temperature</h3>
+        <div class="sensor-values">
+          <canvas id="temperature-gauge"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="button-container">
+      <button id="refresh-button" class="btn btn-primary">Refresh</button>
+    </div>
    </section>
    <section class="vh-80 chart" style="background-color: white;">
     <div class="card-container">
@@ -123,5 +141,94 @@
      </div>
    </section>
 
-   <!--include footer partial-->
-   <%- include('partials/footer') %>
+<!--include footer partial-->
+<%- include('partials/footer') %>
+
+<!-- Add the following style and script at the bottom of the file -->
+<style>
+  .button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/gaugeJS/dist/gauge.min.js"></script>
+<script>
+  // Get the sensor readings from the server or set dummy values
+  const readings = {
+    humidity: <%= readings.humidity || 0 %>,
+    moisture: <%= readings.moisture || 0 %>,
+    temperature: <%= readings.temperature || 0 %>
+  };
+
+  // Create and initialize the gauges
+  const humidityGauge = new Gauge(document.getElementById("humidity-gauge")).setOptions({
+    angle: 0,
+    lineWidth: 0.2,
+    radiusScale: 1,
+    pointer: {
+      length: 0.6,
+      strokeWidth: 0.035,
+      color: "#000000"
+    },
+    staticZones: [
+      { strokeStyle: "#F03E3E", min: 0, max: 20 },
+      { strokeStyle: "#FFDD00", min: 20, max: 60 },
+      { strokeStyle: "#30B32D", min: 60, max: 100 }
+    ],
+    limitMax: false,
+    limitMin: false,
+    highDpiSupport: true
+  });
+  humidityGauge.animationSpeed = 32; // Set the animation speed
+  humidityGauge.set(readings.humidity); // Set the gauge value
+
+  const moistureGauge = new Gauge(document.getElementById("moisture-gauge")).setOptions({
+    angle: 0,
+    lineWidth: 0.2,
+    radiusScale: 1,
+    pointer: {
+      length: 0.6,
+      strokeWidth: 0.035,
+      color: "#000000"
+    },
+    staticZones: [
+      { strokeStyle: "#F03E3E", min: 0, max: 20 },
+      { strokeStyle: "#FFDD00", min: 20, max: 60 },
+      { strokeStyle: "#30B32D", min: 60, max: 100 }
+    ],
+    limitMax: false,
+    limitMin: false,
+    highDpiSupport: true
+  });
+  moistureGauge.animationSpeed = 32; // Set the animation speed
+  moistureGauge.set(readings.moisture); // Set the gauge value
+
+  const temperatureGauge = new Gauge(document.getElementById("temperature-gauge")).setOptions({
+    angle: 0,
+    lineWidth: 0.2,
+    radiusScale: 1,
+    pointer: {
+      length: 0.6,
+      strokeWidth: 0.035,
+      color: "#000000"
+    },
+    staticZones: [
+      { strokeStyle: "#F03E3E", min: 0, max: 20 },
+      { strokeStyle: "#FFDD00", min: 20, max: 60 },
+      { strokeStyle: "#30B32D", min: 60, max: 100 }
+    ],
+    limitMax: false,
+    limitMin: false,
+    highDpiSupport: true
+  });
+  temperatureGauge.animationSpeed = 32; // Set the animation speed
+  temperatureGauge.set(readings.temperature); // Set the gauge value
+
+  // Add event listener to the refresh button
+  const refreshButton = document.getElementById("refresh-button");
+  refreshButton.addEventListener("click", function() {
+    location.reload(); // Reload the page
+  });
+</script>

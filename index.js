@@ -7,7 +7,6 @@ const firebaseConfig = require("./public/js/firebaseConfig");
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const app=express();
-let readings={};
 
 function read_sensor() {
   return new Promise((resolve, reject) => {
