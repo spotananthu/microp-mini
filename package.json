@@ -1,4 +1,9 @@
 {
+  "scripts": {
+    "start": "node index.js",
+    "build": "ejs-cli ./views --output ./public",
+    "test": "mocha tests"
+  },
   "dependencies": {
     "body-parser": "^1.20.2",
     "ejs": "^3.1.9",
