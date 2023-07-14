@@ -1,20 +1,121 @@
-<!--include header.ejs partial-->
-<%- include('partials/header',{title:'marketplace'}) %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Marketplace</title>
+    <style>
+        /* Styles for the popup */
+        .popup {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
 
-<section class="vh-80" style="background-color: white;">
-    <br>
-    <div class="grid-container">
-        <% crops.forEach(function(crop){ %>
-        <div class="grid-item">
-            <img src="../img/<%=crop.title%>.jpg" alt="Product Image" width="200" height="200">
-            <h3><%=crop.title%></h3>
-            <p>Price:<%=crop.amount%></p>
-            <p>Remaining Time: <%=crop.endTime%></p>
-            <button class="button">Place Bid</button>
-            <button class="button">Show Details</button>
+        .popup-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/header', { title: 'marketplace' }) %>
+    <!-- Popup -->
+    <div id="myPopup" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <h2>Enter New Price</h2>
+            <p>Please enter the new price:</p>
+            <input type="number" id="newPriceInput" placeholder="Enter new price">
+            <button id="submitPriceButton">Submit</button>
+           
         </div>
-        <% }) %>
     </div>
-</section>
-<!--include footer partial-->
-<%- include('partials/footer') %>
+
+    <section class="vh-80" style="background-color: white;">
+        <br>
+        <div class="grid-container">
+            <% crops.forEach(function (crop) { %>
+            <div class="grid-item">
+                <img src="../img/<%= crop.title %>.jpg" alt="Product Image" width="200" height="200">
+                <h3><%= crop.title %></h3>
+                <p id="price_<%= crop.quantity %>">Price: <%= crop.amount %></p>
+                <p>Remaining Time: <%= crop.endTime %></p>
+                <button class="button bid-button" data-crop-id="<%= crop.quantity %>">Place Bid</button>
+
+            </div>
+            <% }) %>
+        </div>
+    </section>
+
+    <!-- Include footer partial -->
+    <%- include('partials/footer') %>
+
+    <script>
+        // Get the bid buttons, popup, and form elements
+        var bidButtons = document.getElementsByClassName("bid-button");
+        var popup = document.getElementById("myPopup");
+        var closeButton = popup.querySelector(".close");
+        var newPriceInput = document.getElementById("newPriceInput");
+        var submitPriceButton = document.getElementById("submitPriceButton");
+    
+        var currentCropId; // Variable to store the ID of the currently selected crop
+    
+        // Function to open the popup
+        function openPopup() {
+            currentCropId = this.dataset.cropId; // Store the current crop ID
+            popup.style.display = "block";
+        }
+    
+        // Function to close the popup
+        function closePopup() {
+            popup.style.display = "none";
+        }
+    
+        // Function to handle form submission
+        function submitPrice(event) {
+            event.preventDefault(); // Prevent form submission
+    
+            var newPrice = newPriceInput.value;
+            var priceElement = document.getElementById("price_" + currentCropId);
+            priceElement.textContent = "Price: " + newPrice;
+            closePopup();
+        }
+    
+        // Add click event listeners to each bid button
+        Array.from(bidButtons).forEach(function (button) {
+            button.addEventListener("click", openPopup);
+        });
+    
+        // Add click event listener to the close button
+        closeButton.addEventListener("click", closePopup);
+    
+        // Add click event listener to the submit button
+        submitPriceButton.addEventListener("click", submitPrice);
+    </script>
+</body>
+</html>
