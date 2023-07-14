@@ -239,7 +239,7 @@ for (let i = 6; i >= 0; i--) {
     datasets: [
       {
         label: "Temperature",
-        data: [25, 26, 27, 28, 29, 30, 31],
+        data: <%= JSON.stringify(temperature) %>,
         borderColor: "rgba(255, 99, 132, 1)",
         backgroundColor: "rgba(255, 99, 132, 0.2)",
         fill: false,
@@ -252,7 +252,7 @@ for (let i = 6; i >= 0; i--) {
     datasets: [
       {
         label: "Humidity",
-        data: [40, 45, 42, 50, 47, 48, 46],
+        data: <%= JSON.stringify(humidity) %>,
         borderColor: "rgba(54, 162, 235, 1)",
         backgroundColor: "rgba(54, 162, 235, 0.2)",
         fill: false,
@@ -265,7 +265,7 @@ for (let i = 6; i >= 0; i--) {
     datasets: [
       {
         label: "Moisture",
-        data: [60, 58, 59, 57, 61, 62, 64],
+        data: <%= JSON.stringify(moisture) %>,
         borderColor: "rgba(75, 192, 192, 1)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         fill: false,

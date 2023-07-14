@@ -8,6 +8,56 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const app=express();
 
+async function fetchChartData() {
+  try {
+    const readingsSnapshot = await firebase.database().ref("DHT/readings").once("value");
+    const allReadings = readingsSnapshot.val();
+
+    const currentDate = new Date().toISOString().split('T')[0];
+    const pastSevenDays = [];
+    const temperatureArray = [];
+    const humidityArray = [];
+    const moistureArray = [];
+
+    for (let i = 0; i < 7; i++) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      const formattedDate = date.toISOString().split('T')[0];
+      pastSevenDays.push(formattedDate);
+    }
+
+    for (const day of pastSevenDays) {
+      const filteredReadings = Object.values(allReadings).filter(reading => reading.date === day);
+
+      const temperatures = filteredReadings.map(reading => reading.temperature);
+      const averageTemperature = calculateAverageWeekly(temperatures);
+      temperatureArray.push(averageTemperature);
+
+      const humidities = filteredReadings.map(reading => reading.humidity);
+      const averageHumidity = calculateAverageWeekly(humidities);
+      humidityArray.push(averageHumidity);
+
+      const moistures = filteredReadings.map(reading => reading.moisture);
+      const averageMoisture = calculateAverageWeekly(moistures);
+      moistureArray.push(averageMoisture);
+    }
+
+    return {
+      temperatureArray: temperatureArray.reverse(),
+      humidityArray: humidityArray.reverse(),
+      moistureArray: moistureArray.reverse()
+    };
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+function calculateAverageWeekly(values) {
+  const sum = values.reduce((total, value) => total + value, 0);
+  return sum / values.length || 0;
+}
+
 function read_sensor() {
   return new Promise((resolve, reject) => {
     const readingsRef = firebase.database().ref('DHT/readings');
@@ -15,6 +65,7 @@ function read_sensor() {
     readingsRef.once('value')
       .then((snapshot) => {
         const allReadings = snapshot.val();
+        console.log("inside read sensor",allReadings);
         const readingsArray = Object.values(allReadings);
         const lastThreeReadings = readingsArray.slice(-3);
 
@@ -85,8 +136,10 @@ app.get("/login.html",function(req,res){
     res.sendFile(__dirname+"/login.html");
 })
 
-app.get("/dashboard",function(req,res){
-  res.render("dashboard");
+app.get("/dashboard",async function(req, res){
+  const readings = await read_sensor();
+  const { temperatureArray, humidityArray, moistureArray } = await fetchChartData();
+  res.render("dashboard",{readings:readings,temperature:temperatureArray, humidity:humidityArray, moisture:moistureArray});
 })
 
 app.get("/add_crop.html",function(req,res){
@@ -100,7 +153,7 @@ app.get("/register.html",function(req,res){
 app.get("/marketplace", async function(req, res) {
   try {
     const reading = await readCropData();
-    console.log("Inside", reading);
+    //console.log("Inside", reading);
     res.render("marketplace", { title: 'marketplace',crops:reading});
   } catch (error) {
     console.log("Error:", error);
@@ -113,7 +166,7 @@ app.listen(5000,function(){
     console.log("Server started on port 5000");
 })
 
-app.post("/register",function(req,res)
+app.post("/register",async function(req, res)
 {
   const name=req.body.name;
   const email=req.body.username;
@@ -130,11 +183,15 @@ app.post("/register",function(req,res)
       address: address
     });
     console.log("User data saved to Firebase");
-    res.render("dashboard");
+    const readings = await read_sensor();
+      const { temperatureArray, humidityArray, moistureArray } = await fetchChartData();
+      res.render("dashboard",{readings:readings,temperature:temperatureArray, humidity:humidityArray, moisture:moistureArray});
   } catch (err) {
     console.log(err);
   }
-  res.render("dashboard");
+  const readings = await read_sensor();
+  const { temperatureArray, humidityArray, moistureArray } = await fetchChartData();
+  res.render("dashboard",{readings:readings,temperature:temperatureArray, humidity:humidityArray, moisture:moistureArray});
 });
 
 app.post("/dashboard", async function(req, res) {
@@ -150,20 +207,18 @@ app.post("/dashboard", async function(req, res) {
     );
     if (foundUser) {
       const readings = await read_sensor();
-      console.log(readings);
-      // Assuming the readings array contains the data you provided
-      //console.log("Outside", readings);
-      res.render("dashboard",{readings:readings});
+      const { temperatureArray, humidityArray, moistureArray } = await fetchChartData();
+      res.render("dashboard",{readings:readings,temperature:temperatureArray, humidity:humidityArray, moisture:moistureArray});
+      console.log(temperatureArray,humidityArray,moistureArray);
     } else {
       // Username or password is incorrect
       res.status(401).send("Invalid username or password");
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).send("Internal server error");
   }
 });
-
 
   app.post("/add_crop.html",function(req,res){
     let title=req.body.crops;
@@ -174,10 +229,10 @@ app.post("/dashboard", async function(req, res) {
       // Create a new user entry in the database
       const newUserRef = db.ref("crops").push();
       const currentDate = new Date();
-      console.log(currentDate);
+      //console.log(currentDate);
     // Calculate the future date by adding 24 hours (86400000 milliseconds)
       const futureDate = new Date(currentDate.getTime() + 86400000);
-      console.log(futureDate);
+      //console.log(futureDate);
       // Set the user data
       newUserRef.set({
         title: title,
@@ -193,6 +248,6 @@ app.post("/dashboard", async function(req, res) {
     } catch (err) {
       console.log(err);
     }
-    console.log(title,quantity,amount,address);
+    //console.log(title,quantity,amount,address);
   })
 
